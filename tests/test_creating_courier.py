@@ -1,6 +1,7 @@
 import requests
 import allure
 from methods.generating_unique_user_data import generate_random_account_data
+from data.url import url_creating_courier
 
 
 class TestCreatingCourier:
@@ -13,7 +14,7 @@ class TestCreatingCourier:
             "password": f'{new_login[1]}',
             "firstName": f'{new_login[2]}'
         }
-        response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/courier", data=payload)
+        response = requests.post(url_creating_courier, data=payload)
         assert 201 == response.status_code
 
     @allure.title('Проверка возврата тела ответа "ok"')
@@ -24,7 +25,7 @@ class TestCreatingCourier:
             "password": f'{new_login[1]}',
             "firstName": f'{new_login[2]}'
         }
-        response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/courier", data=payload)
+        response = requests.post(url_creating_courier, data=payload)
         assert 'ok' in response.json()
 
     @allure.title('Проверка невозможности создания двух одинаковых курьеров')
@@ -35,8 +36,8 @@ class TestCreatingCourier:
             "password": f'{new_login[1]}',
             "firstName": f'{new_login[2]}'
         }
-        requests.post("https://qa-scooter.praktikum-services.ru/api/v1/courier", data=payload)
-        response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/courier", data=payload)
+        requests.post(url_creating_courier, data=payload)
+        response = requests.post(url_creating_courier, data=payload)
         assert 'Этот логин уже используется. Попробуйте другой.' == response.json()["message"]
 
     @allure.title('Проверка создания курьера если одного из полей нет')
@@ -45,7 +46,7 @@ class TestCreatingCourier:
             "login": "uzumaki",
             "firstName": "naruto"
         }
-        response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/courier", data=payload)
+        response = requests.post(url_creating_courier, data=payload)
         assert 'Недостаточно данных для создания учетной записи' == response.json()["message"]
 
     @allure.title('Проверка ошибки если логин уже существует')
@@ -56,5 +57,5 @@ class TestCreatingCourier:
             "password": f'{new_login[1]}',
             "firstName": f'{new_login[2]}'
         }
-        response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/courier", data=payload)
+        response = requests.post(url_creating_courier, data=payload)
         assert 409 == response.status_code

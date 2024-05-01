@@ -1,6 +1,7 @@
 import requests
 import allure
 import methods.generating_unique_register_user
+from data.url import url_courier_login
 
 
 class TestCourierLogin:
@@ -12,7 +13,7 @@ class TestCourierLogin:
             "login": f'{new_login[0]}',
             "password": f'{new_login[1]}'
         }
-        response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/courier/login", data=payload)
+        response = requests.post(url_courier_login, data=payload)
         assert 200 == response.status_code
 
     @allure.title('Проверка несуществующего пользователя')
@@ -21,7 +22,7 @@ class TestCourierLogin:
             "login": "nobody",
             "password": "123456",
         }
-        response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/courier/login", data=payload)
+        response = requests.post(url_courier_login, data=payload)
         assert 'Учетная запись не найдена' == response.json()["message"]
 
     @allure.title('Проверка отсутствия поля')
@@ -29,7 +30,7 @@ class TestCourierLogin:
         payload = {
             "password": "123456",
         }
-        response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/courier/login", data=payload)
+        response = requests.post(url_courier_login, data=payload)
         assert 'Недостаточно данных для входа' == response.json()["message"]
 
     @allure.title('Проверка успешный запрос возвращает id')
@@ -39,5 +40,5 @@ class TestCourierLogin:
             "login": f'{new_login[0]}',
             "password": f'{new_login[1]}'
         }
-        response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/courier/login", data=payload)
+        response = requests.post(url_courier_login, data=payload)
         assert 'id' in response.json()

@@ -3,6 +3,7 @@ import json
 import pytest
 import requests
 from methods.generating_unique_register_user import register_new_courier_and_return_login_password
+from data.url import url_creating_order
 
 
 class TestCreatingOrder:
@@ -29,7 +30,7 @@ class TestCreatingOrder:
             ]
         }
         json_string = json.dumps(payload)
-        response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/orders", data=json_string)
+        response = requests.post(url_creating_order, data=json_string)
         assert 201 == response.status_code
 
     @allure.title('Проверка указания обоих цветов')
@@ -55,7 +56,7 @@ class TestCreatingOrder:
             ]
         }
         json_string = json.dumps(payload)
-        response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/orders", data=json_string)
+        response = requests.post(url_creating_order, data=json_string)
         assert 201 == response.status_code
 
     @allure.title('Проверка без указания цвета')
@@ -79,7 +80,7 @@ class TestCreatingOrder:
             ]
         }
         json_string = json.dumps(payload)
-        response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/orders", data=json_string)
+        response = requests.post(url_creating_order, data=json_string)
         assert 201 == response.status_code
 
     @allure.title('Проверка тело ответа содержит track')
@@ -104,5 +105,5 @@ class TestCreatingOrder:
             ]
         }
         json_string = json.dumps(payload)
-        response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/orders", data=json_string)
+        response = requests.post(url_creating_order, data=json_string)
         assert 'track' in response.json()
