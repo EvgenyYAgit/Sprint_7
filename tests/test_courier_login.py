@@ -2,6 +2,7 @@ import requests
 import allure
 import methods.generating_unique_register_user
 from data.url import url_courier_login
+from data.data import account_not_found, insufficient_login_information
 
 
 class TestCourierLogin:
@@ -22,7 +23,7 @@ class TestCourierLogin:
             "password": "123456",
         }
         response = requests.post(url_courier_login, data=payload)
-        assert 'Учетная запись не найдена' == response.json()["message"]
+        assert account_not_found == response.json()["message"]
 
     @allure.title('Проверка отсутствия поля')
     def test_missing_field(self):
@@ -30,7 +31,7 @@ class TestCourierLogin:
             "password": "123456",
         }
         response = requests.post(url_courier_login, data=payload)
-        assert 'Недостаточно данных для входа' == response.json()["message"]
+        assert insufficient_login_information == response.json()["message"]
 
     @allure.title('Проверка успешный запрос возвращает id')
     def test_validation_successful_request_returns_id(self):

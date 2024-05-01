@@ -2,6 +2,7 @@ import requests
 import allure
 import methods.generating_unique_register_user
 from data.url import url_creating_courier
+from data.data import this_login_is_already_in_use, insufficient_information_to_create
 
 
 class TestCreatingCourier:
@@ -38,7 +39,7 @@ class TestCreatingCourier:
         }
         requests.post(url_creating_courier, data=payload)
         response = requests.post(url_creating_courier, data=payload)
-        assert 'Этот логин уже используется. Попробуйте другой.' == response.json()["message"]
+        assert this_login_is_already_in_use == response.json()["message"]
 
     @allure.title('Проверка создания курьера если одного из полей нет')
     def test_if_none_of_the_query_fields_is_present(self):
@@ -47,7 +48,7 @@ class TestCreatingCourier:
             "firstName": "naruto"
         }
         response = requests.post(url_creating_courier, data=payload)
-        assert 'Недостаточно данных для создания учетной записи' == response.json()["message"]
+        assert insufficient_information_to_create == response.json()["message"]
 
     @allure.title('Проверка ошибки если логин уже существует')
     def test_error_is_login_that_already_exists(self):
