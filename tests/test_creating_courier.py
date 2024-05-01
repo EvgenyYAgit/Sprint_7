@@ -1,6 +1,6 @@
 import requests
 import allure
-from methods.generating_unique_user_data import generate_random_account_data
+import methods.generating_unique_register_user
 from data.url import url_creating_courier
 
 
@@ -8,7 +8,7 @@ class TestCreatingCourier:
 
     @allure.title('Проверка создания курьера с правильным кодом ответа')
     def test_courier_can_be_created(self):
-        new_login = generate_random_account_data()
+        new_login = methods.generating_unique_register_user.register_new_courier_and_return_login_password('no')
         payload = {
             "login": f'{new_login[0]}',
             "password": f'{new_login[1]}',
@@ -19,7 +19,7 @@ class TestCreatingCourier:
 
     @allure.title('Проверка возврата тела ответа "ok"')
     def test_is_returned_to_the_response_body_ok(self):
-        new_login = generate_random_account_data()
+        new_login = methods.generating_unique_register_user.register_new_courier_and_return_login_password('no')
         payload = {
             "login": f'{new_login[0]}',
             "password": f'{new_login[1]}',
@@ -30,7 +30,7 @@ class TestCreatingCourier:
 
     @allure.title('Проверка невозможности создания двух одинаковых курьеров')
     def test_cannot_create_two_identical_couriers(self):
-        new_login = generate_random_account_data()
+        new_login = methods.generating_unique_register_user.register_new_courier_and_return_login_password('no')
         payload = {
             "login": f'{new_login[0]}',
             "password": f'{new_login[1]}',
@@ -51,7 +51,7 @@ class TestCreatingCourier:
 
     @allure.title('Проверка ошибки если логин уже существует')
     def test_error_is_login_that_already_exists(self):
-        new_login = generate_random_account_data()
+        new_login = methods.generating_unique_register_user.register_new_courier_and_return_login_password('no')
         payload = {
             "login": 'naruto',
             "password": f'{new_login[1]}',

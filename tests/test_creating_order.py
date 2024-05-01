@@ -2,7 +2,7 @@ import allure
 import json
 import pytest
 import requests
-from methods.generating_unique_register_user import register_new_courier_and_return_login_password
+import methods.generating_unique_register_user
 from data.url import url_creating_order
 
 
@@ -15,7 +15,7 @@ class TestCreatingOrder:
                               ['Предварительно позвоните', 'Космодемьянская', '2024-05-06', '+7 800 355 35 35',
                                'Ул.Шоколадная, д.55']])
     def test_one_color(self, comment, lastname, delivery_date, phone, address):
-        new_login = register_new_courier_and_return_login_password()
+        new_login = methods.generating_unique_register_user.register_new_courier_and_return_login_password('yes')
         payload = {
             "firstName": f'{new_login[2]}',
             "lastName": f'{lastname}',
@@ -40,7 +40,7 @@ class TestCreatingOrder:
                               ['Без комментариев', 'Шелтеков', '2024-03-10', '+7 900 355 25 35',
                                'Ул.Маслова, д.5']])
     def test_two_color(self, comment, lastname, delivery_date, phone, address):
-        new_login = register_new_courier_and_return_login_password()
+        new_login = methods.generating_unique_register_user.register_new_courier_and_return_login_password('yes')
         payload = {
             "firstName": f'{new_login[2]}',
             "lastName": f'{lastname}',
@@ -66,7 +66,7 @@ class TestCreatingOrder:
                               ['Предварительно позвоните на номер', 'Катков', '2024-10-05', '+7 800 355 35 35',
                                'Ул.Войкова, д.57']])
     def test_without_color(self, comment, lastname, delivery_date, phone, address):
-        new_login = register_new_courier_and_return_login_password()
+        new_login = methods.generating_unique_register_user.register_new_courier_and_return_login_password('yes')
         payload = {
             "firstName": f'{new_login[2]}',
             "lastName": f'{lastname}',
@@ -90,7 +90,7 @@ class TestCreatingOrder:
                               ['Буду недоступен до 12 утра', 'Сосунов', '2024-07-06', '+7 800 400 00 11',
                                'Ул.Петропавловская, д.55']])
     def test_response_body_contains_track(self, comment, lastname, delivery_date, phone, address):
-        new_login = register_new_courier_and_return_login_password()
+        new_login = methods.generating_unique_register_user.register_new_courier_and_return_login_password('yes')
         payload = {
             "firstName": f'{new_login[2]}',
             "lastName": f'{lastname}',

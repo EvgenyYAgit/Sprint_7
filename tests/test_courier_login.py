@@ -8,7 +8,7 @@ class TestCourierLogin:
 
     @allure.title('Проверка авторизации курьера')
     def test_courier_can_log_in(self):
-        new_login = methods.generating_unique_register_user.register_new_courier_and_return_login_password()
+        new_login = methods.generating_unique_register_user.register_new_courier_and_return_login_password('yes')
         payload = {
             "login": f'{new_login[0]}',
             "password": f'{new_login[1]}'
@@ -35,7 +35,7 @@ class TestCourierLogin:
 
     @allure.title('Проверка успешный запрос возвращает id')
     def test_validation_successful_request_returns_id(self):
-        new_login = methods.generating_unique_register_user.register_new_courier_and_return_login_password()
+        new_login = methods.generating_unique_register_user.register_new_courier_and_return_login_password('yes')
         payload = {
             "login": f'{new_login[0]}',
             "password": f'{new_login[1]}'
