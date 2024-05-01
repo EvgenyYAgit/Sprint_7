@@ -82,28 +82,3 @@ class TestCreatingOrder:
         json_string = json.dumps(payload)
         response = requests.post(url_creating_order, data=json_string)
         assert 201 == response.status_code and "track" in response.json()
-
-    @allure.title('Проверка тело ответа содержит track')
-    @pytest.mark.parametrize('comment, lastname, delivery_date, phone, address',
-                             [['Не торопитесь', 'Марыскин', '2024-02-06', '89209234400',
-                               'Ул.Московская, д.9'],
-                              ['Буду недоступен до 12 утра', 'Сосунов', '2024-07-06', '+7 800 400 00 11',
-                               'Ул.Петропавловская, д.55']])
-    def test_response_body_contains_track(self, comment, lastname, delivery_date, phone, address):
-        new_login = methods.generating_unique_register_user.register_new_courier_and_return_login_password('yes')
-        payload = {
-            "firstName": f'{new_login[2]}',
-            "lastName": f'{lastname}',
-            "address": f'{address}',
-            "metroStation": 4,
-            "phone": f'{phone}',
-            "rentTime": 5,
-            "deliveryDate": f'{delivery_date}',
-            "comment": f'{comment}',
-            "color": [
-                "GREY"
-            ]
-        }
-        json_string = json.dumps(payload)
-        response = requests.post(url_creating_order, data=json_string)
-        assert 'track' in response.json()
