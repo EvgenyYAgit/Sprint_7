@@ -15,7 +15,7 @@ class TestCreatingCourier:
             "firstName": f'{new_login[2]}'
         }
         response = requests.post(url_creating_courier, data=payload)
-        assert 201 == response.status_code
+        assert 201 == response.status_code and response.json()["ok"]
 
     @allure.title('Проверка возврата тела ответа "ok"')
     def test_is_returned_to_the_response_body_ok(self):
@@ -58,4 +58,4 @@ class TestCreatingCourier:
             "firstName": f'{new_login[2]}'
         }
         response = requests.post(url_creating_courier, data=payload)
-        assert 409 == response.status_code
+        assert 409 == response.status_code and 409 == response.json()["code"]

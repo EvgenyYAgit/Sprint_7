@@ -31,7 +31,7 @@ class TestCreatingOrder:
         }
         json_string = json.dumps(payload)
         response = requests.post(url_creating_order, data=json_string)
-        assert 201 == response.status_code
+        assert 201 == response.status_code and "track" in response.json()
 
     @allure.title('Проверка указания обоих цветов')
     @pytest.mark.parametrize('comment, lastname, delivery_date, phone, address',
@@ -57,7 +57,7 @@ class TestCreatingOrder:
         }
         json_string = json.dumps(payload)
         response = requests.post(url_creating_order, data=json_string)
-        assert 201 == response.status_code
+        assert 201 == response.status_code and "track" in response.json()
 
     @allure.title('Проверка без указания цвета')
     @pytest.mark.parametrize('comment, lastname, delivery_date, phone, address',
@@ -81,7 +81,7 @@ class TestCreatingOrder:
         }
         json_string = json.dumps(payload)
         response = requests.post(url_creating_order, data=json_string)
-        assert 201 == response.status_code
+        assert 201 == response.status_code and "track" in response.json()
 
     @allure.title('Проверка тело ответа содержит track')
     @pytest.mark.parametrize('comment, lastname, delivery_date, phone, address',

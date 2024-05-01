@@ -8,13 +8,12 @@ class TestCourierLogin:
 
     @allure.title('Проверка авторизации курьера')
     def test_courier_can_log_in(self):
-        new_login = methods.generating_unique_register_user.register_new_courier_and_return_login_password('yes')
         payload = {
-            "login": f'{new_login[0]}',
-            "password": f'{new_login[1]}'
+            "login": "sarutobi22",
+            "password": "123456"
         }
         response = requests.post(url_courier_login, data=payload)
-        assert 200 == response.status_code
+        assert 200 == response.status_code and 296275 == response.json()["id"]
 
     @allure.title('Проверка несуществующего пользователя')
     def test_non_existent_user(self):
