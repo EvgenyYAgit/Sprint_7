@@ -59,4 +59,4 @@ class TestCreatingCourier:
             "firstName": f'{new_login[2]}'
         }
         response = requests.post(url_creating_courier, data=payload)
-        assert 409 == response.status_code and 409 == response.json()["code"]
+        assert this_login_is_already_in_use == response.json()["message"]
